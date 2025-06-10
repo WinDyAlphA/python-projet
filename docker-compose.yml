@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  # Serveur SSH/SFTP
+  ssh_server:
+    image: linuxserver/openssh-server
+    container_name: ssh_server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - PASSWORD_ACCESS=true
+      - USER_NAME=noahheraud
+      - USER_PASSWORD=root
+      - PUBLIC_KEY_FILE=/config/ssh_pubkey
+      - SUDO_ACCESS=true
+    volumes:
+      - ./ssh_server_data:/config
+      - ./ssh_keys:/ssh_keys:ro
+    ports:
+      - "2222:2222"
+    restart: unless-stopped
+    networks:
+      sftp_network:
+        ipv4_address: 172.20.0.2
+
+  # Client pour tester la connexion
+  ssh_client:
+    image: python:3.9-slim
+    container_name: ssh_client
+    volumes:
+      - ./Transfert:/app
+      - ./ssh_keys:/tmp/ssh_keys:ro
+    tty: true
+    stdin_open: true
+    depends_on:
+      - ssh_server
+    networks:
+      sftp_network:
+        ipv4_address: 172.20.0.3
+    command: bash
+
+networks:
+  sftp_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/24 
