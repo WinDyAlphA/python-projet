@@ -3,6 +3,8 @@ import os
 import logging
 import getpass
 import shutil
+from signature import sign_for_send, verify_file_signature, load_public_key
+
 
 # Configuration du système de journalisation
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -119,6 +121,9 @@ if __name__ == "__main__":
             f.write("Ceci est un fichier de test")
         logging.info("Fichier test.txt créé pour les tests")
 
+    # Signer le fichier et obtenir la clé publique
+    sign_for_send("test.txt")
+
     # Préparation des clés SSH
     ssh_dir = "/root/.ssh"
     if not os.path.exists(ssh_dir):
@@ -140,8 +145,25 @@ if __name__ == "__main__":
     result = transfer_file("test.txt", "/config/ceciestunfichier.txt", 
                 use_key=True, key_path="/root/.ssh/id_rsa", key_password="password")
     
+    result = transfer_file("test.txt.sig", "/config/ceciestunfichier.txt.sig", 
+                use_key=True, key_path="/root/.ssh/id_rsa", key_password="password")
+    
+    # Transférer aussi la clé publique
+    result = transfer_file("test.txt.pub", "/config/ceciestunfichier.txt.pub", 
+                use_key=True, key_path="/root/.ssh/id_rsa", key_password="password")
+    
     # Vérification du résultat
     if result:
         logging.info("Transfert de fichier réussi")
     else:
         logging.error("Échec du transfert de fichier")
+
+    # Charger la clé publique depuis le fichier
+    public_key = load_public_key("test.txt.pub")
+    
+    # Vérification de la signature avec la clé publique chargée
+    if public_key:
+        is_valid = verify_file_signature("test.txt", "test.txt.sig", public_key)
+        print(f"Vérification de test.txt avec sa signature: {is_valid}")
+    else:
+        print("Impossible de vérifier la signature: clé publique non disponible")

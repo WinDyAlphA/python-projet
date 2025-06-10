@@ -2,6 +2,7 @@ import paramiko
 import os
 import logging
 import getpass
+from signature import sign_for_send
 
 # Configuration du système de journalisation
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -116,9 +117,14 @@ if __name__ == "__main__":
         with open("test.txt", "w") as f:
             f.write("Ceci est un fichier de test")
         logging.info("Fichier test.txt créé pour les tests")
+
+    sign_for_send("test.txt")
     
     # Exemple d'utilisation avec authentification par clé SSH protégée par mot de passe
     result = transfer_file("test.txt", "ceciestunfichier.txt", 
+                use_key=True, key_path="/Users/noahheraud/.ssh/digitalocean")
+    
+    result = transfer_file("test.txt.sig", "ceciestunfichier.txt.sig", 
                 use_key=True, key_path="/Users/noahheraud/.ssh/digitalocean")
     
     # Vérification du résultat
