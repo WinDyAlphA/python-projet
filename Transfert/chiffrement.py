@@ -3,6 +3,12 @@ from cryptography.hazmat.primitives import padding
 from cryptography.exceptions import InvalidKey
 import os
 
+# recupere le pwd
+pwd = os.getcwd()
+# recuperer le fichier test.txt
+file_path = os.path.join(pwd, "Transfert", "test.txt")
+
+
 key = os.urandom(32)
 iv = os.urandom(16)
 
@@ -108,32 +114,11 @@ def encrypt_from_file(filename):
 # main 
 
 if __name__ == "__main__":
-    #basic test
-    message = "Hello, World!"
-    encrypted = encrypt_message(message)
-    decrypted = decrypt_message(encrypted)
-
-    print(f"Original: {message}")
-    print(f"Encrypted: {encrypted}")
-    print(f"Decrypted: {decrypted}")
-    ### FROM FILE
-    # Chiffrer
-    cipher = encrypt_from_file("message.txt")
+    # Chiffrer le fichier test.txt
+    cipher = encrypt_from_file(file_path)
     
     # Sauvegarder le chiffré dans un fichier
-    with open("encrypted_message.txt", "wb") as f:
+    with open(file_path+".enc", "wb") as f:
         if cipher is not None:
             f.write(cipher)
-    print(f"Encrypted from file: {cipher}")
-
-    # Déchiffrer 
-    plain = decrypt_from_file("encrypted_message.txt")
-    print(f"Decrypted from file: {plain}")
-
-    ### TO FILE 
-    # Chiffrer
-    cipher = encrypt_to_file("En fait j'adore le python !", "encrypted_to_file_message.txt")
-    print(f"Encrypted to file: {cipher}")
-    # Déchiffrer
-    plain = decrypt_to_file(cipher, "decrypted_to_file_message.txt")
-    print(f"Decrypted to file: {plain}")
+    print(f"Le fichier test.txt a été chiffré et sauvegardé dans encrypted_test.txt")

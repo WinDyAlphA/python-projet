@@ -88,8 +88,8 @@ def generate_keys():
 def sign_for_send(file_path):
   private_key, public_key, private_pem, public_pem = generate_keys()
 
-  print("Clé privée: \n", private_pem.decode())
-  print("Clé publique: \n", public_pem.decode())
+  #print("Clé privée: \n", private_pem.decode())
+  #print("Clé publique: \n", public_pem.decode())
   
   # Sauvegarder la clé publique pour vérification ultérieure
   with open(file_path + ".pub", "wb") as pub_file:

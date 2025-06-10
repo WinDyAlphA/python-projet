@@ -27,3 +27,49 @@
 2025-06-10 16:36:04.750487458  Read error from remote host 172.20.0.3 port 44234: Connection reset by peer
 2025-06-10 16:36:05.023128875  Accepted publickey for noahheraud from 172.20.0.3 port 44240 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
 2025-06-10 16:36:05.080407667  Read error from remote host 172.20.0.3 port 44240: Connection reset by peer
+2025-06-10 17:50:47.251082385  Accepted publickey for noahheraud from 172.20.0.3 port 40584 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:50:47.305629260  Read error from remote host 172.20.0.3 port 40584: Connection reset by peer
+2025-06-10 17:50:47.573049677  Accepted publickey for noahheraud from 172.20.0.3 port 40590 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:50:47.629065718  Read error from remote host 172.20.0.3 port 40590: Connection reset by peer
+2025-06-10 17:50:47.898090844  Accepted publickey for noahheraud from 172.20.0.3 port 47020 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:50:48.059310219  Read error from remote host 172.20.0.3 port 47020: Connection reset by peer
+2025-06-10 17:50:48.222452594  Accepted publickey for noahheraud from 172.20.0.3 port 47022 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:50:48.386306510  Read error from remote host 172.20.0.3 port 47022: Connection reset by peer
+2025-06-10 17:50:48.549456344  Accepted publickey for noahheraud from 172.20.0.3 port 47030 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:50:48.603900511  Read error from remote host 172.20.0.3 port 47030: Connection reset by peer
+2025-06-10 17:53:25.912614416  Accepted publickey for noahheraud from 172.20.0.3 port 34010 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:53:25.971537333  Read error from remote host 172.20.0.3 port 34010: Connection reset by peer
+2025-06-10 17:53:26.241056625  Accepted publickey for noahheraud from 172.20.0.3 port 34014 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:53:26.402297542  Read error from remote host 172.20.0.3 port 34014: Connection reset by peer
+2025-06-10 17:53:26.573047958  Accepted publickey for noahheraud from 172.20.0.3 port 34022 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:53:26.734320250  Read error from remote host 172.20.0.3 port 34022: Connection reset by peer
+2025-06-10 17:53:26.899890292  Accepted publickey for noahheraud from 172.20.0.3 port 34028 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:53:26.957360625  Read error from remote host 172.20.0.3 port 34028: Connection reset by peer
+2025-06-10 17:53:27.228550709  Accepted publickey for noahheraud from 172.20.0.3 port 34040 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:53:27.284899042  Read error from remote host 172.20.0.3 port 34040: Connection reset by peer
+2025-06-10 17:53:27.556530376  Accepted publickey for noahheraud from 172.20.0.3 port 34054 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:53:27.616197792  Read error from remote host 172.20.0.3 port 34054: Connection reset by peer
+2025-06-10 17:54:25.260747847  Accepted publickey for noahheraud from 172.20.0.3 port 54236 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:54:25.424810139  Read error from remote host 172.20.0.3 port 54236: Connection reset by peer
+2025-06-10 17:54:25.589621833  Accepted publickey for noahheraud from 172.20.0.3 port 54252 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:54:25.749663166  Read error from remote host 172.20.0.3 port 54252: Connection reset by peer
+2025-06-10 17:54:25.912926291  Accepted publickey for noahheraud from 172.20.0.3 port 54254 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:54:26.072661291  Read error from remote host 172.20.0.3 port 54254: Connection reset by peer
+2025-06-10 17:54:26.235686208  Accepted publickey for noahheraud from 172.20.0.3 port 54260 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:54:26.399676833  Read error from remote host 172.20.0.3 port 54260: Connection reset by peer
+2025-06-10 17:54:26.562054833  Accepted publickey for noahheraud from 172.20.0.3 port 54270 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:54:26.620705917  Read error from remote host 172.20.0.3 port 54270: Connection reset by peer
+2025-06-10 17:54:26.888907250  Accepted publickey for noahheraud from 172.20.0.3 port 54276 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:54:26.947222000  Read error from remote host 172.20.0.3 port 54276: Connection reset by peer
+2025-06-10 17:55:07.793680214  Accepted publickey for noahheraud from 172.20.0.3 port 48762 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:55:07.957479547  Read error from remote host 172.20.0.3 port 48762: Connection reset by peer
+2025-06-10 17:55:08.124922297  Accepted publickey for noahheraud from 172.20.0.3 port 48772 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:55:08.283929672  Read error from remote host 172.20.0.3 port 48772: Connection reset by peer
+2025-06-10 17:55:08.454697631  Accepted publickey for noahheraud from 172.20.0.3 port 48786 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:55:08.613815922  Read error from remote host 172.20.0.3 port 48786: Connection reset by peer
+2025-06-10 17:55:08.780327964  Accepted publickey for noahheraud from 172.20.0.3 port 48790 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:55:08.938822631  Read error from remote host 172.20.0.3 port 48790: Connection reset by peer
+2025-06-10 17:55:09.105083006  Accepted publickey for noahheraud from 172.20.0.3 port 48800 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:55:09.163965381  Read error from remote host 172.20.0.3 port 48800: Connection reset by peer
+2025-06-10 17:55:09.438015339  Accepted publickey for noahheraud from 172.20.0.3 port 48814 ssh2: RSA SHA256:F7Gb2ujQv81vPaz+si1lgvSdRuY2ZCxU+gcuLGs3Sgc
+2025-06-10 17:55:09.494576215  Read error from remote host 172.20.0.3 port 48814: Connection reset by peer

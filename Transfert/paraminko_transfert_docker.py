@@ -3,14 +3,16 @@ import os
 import logging
 import getpass
 import shutil
+import tempfile
 from signature import sign_for_send, verify_file_signature, load_public_key
+from chiffrement import encrypt_from_file, decrypt_message, decrypt_from_file, key, iv
 
 
 # Configuration du système de journalisation
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+#logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def transfer_file(file_path, remote_path, host="172.20.0.2", port=2222, username="noahheraud", 
-                 use_key=False, key_path="/root/.ssh/id_rsa", password=None, key_password=None):    
+                 use_key=False, key_path="/root/.ssh/id_rsa", password=None, key_password=None, encrypt=False):    
     """
     Transfère un fichier vers un serveur distant via SFTP.
     
@@ -24,10 +26,25 @@ def transfer_file(file_path, remote_path, host="172.20.0.2", port=2222, username
     - key_path: Chemin vers la clé privée SSH
     - password: Mot de passe pour l'authentification par mot de passe
     - key_password: Mot de passe pour déverrouiller la clé SSH si elle est protégée
+    - encrypt: Chiffrer le fichier avant le transfert (False par défaut)
     """
     try:
         logging.info(f"Connexion à {host}:{port} en tant que {username}")
         logging.info(f"Méthode d'authentification: {'Clé SSH' if use_key else 'Mot de passe'}")
+        
+        # Chiffrement du fichier si demandé
+        temp_file_path = file_path
+        if encrypt and not file_path.endswith(('.sig', '.pub', '.enc')):
+            logging.info(f"Chiffrement du fichier {file_path}")
+            ciphertext = encrypt_from_file(file_path)
+            if ciphertext:
+                temp_file_path = file_path + ".enc"
+                with open(temp_file_path, "wb") as f:
+                    f.write(ciphertext)
+                logging.info(f"Fichier chiffré et sauvegardé dans {temp_file_path}")
+            else:
+                logging.error(f"Échec du chiffrement du fichier {file_path}")
+                return False
         
         # Vérification de l'existence de la clé SSH si cette méthode est utilisée
         if use_key:
@@ -85,10 +102,15 @@ def transfer_file(file_path, remote_path, host="172.20.0.2", port=2222, username
             sftp = client.open_sftp()
     
             # Transfert du fichier
-            logging.info(f"Transfert du fichier de {file_path} vers {remote_path}")
-            sftp.put(file_path, remote_path)
+            logging.info(f"Transfert du fichier de {temp_file_path} vers {remote_path}")
+            sftp.put(temp_file_path, remote_path)
             logging.info("Transfert de fichier terminé")
     
+            # Nettoyage du fichier temporaire chiffré
+            if encrypt and temp_file_path != file_path:
+                os.remove(temp_file_path)
+                logging.info(f"Fichier temporaire {temp_file_path} supprimé")
+                
             # Fermeture des connexions
             sftp.close()
             client.close()
@@ -112,6 +134,88 @@ def transfer_file(file_path, remote_path, host="172.20.0.2", port=2222, username
         logging.error(f"Erreur de connexion: {str(e)}")
         return False
 
+def retrieve_and_decrypt_file(remote_file_path, local_file_path, decryption_key=None, decryption_iv=None, 
+                             host="172.20.0.2", port=2222, username="noahheraud",
+                             use_key=False, key_path="/root/.ssh/id_rsa", password=None, key_password=None):
+    """
+    Récupère un fichier chiffré depuis le serveur distant et le déchiffre.
+    
+    Paramètres:
+    - remote_file_path: Chemin du fichier distant à récupérer
+    - local_file_path: Chemin local où sauvegarder le fichier déchiffré
+    - decryption_key: Clé de déchiffrement (facultatif, utilise la clé globale par défaut)
+    - decryption_iv: Vecteur d'initialisation pour le déchiffrement (facultatif, utilise l'iv global par défaut)
+    - host, port, username, use_key, key_path, password, key_password: Paramètres de connexion SSH
+    
+    Retourne:
+    - True si la récupération et le déchiffrement sont réussis, False sinon
+    """
+    try:
+        logging.info(f"Connexion à {host}:{port} en tant que {username} pour récupérer {remote_file_path}")
+        
+        # Configuration de la connexion SSH
+        client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        
+        # Authentification
+        if use_key:
+            if key_password is None:
+                try:
+                    key = paramiko.RSAKey.from_private_key_file(key_path)
+                    client.connect(hostname=host, port=port, username=username, pkey=key)
+                except paramiko.ssh_exception.PasswordRequiredException:
+                    key_password = "password"
+                    client.connect(hostname=host, port=port, username=username, 
+                                  key_filename=key_path, passphrase=key_password)
+            else:
+                client.connect(hostname=host, port=port, username=username, 
+                              key_filename=key_path, passphrase=key_password)
+        else:
+            if password is None:
+                password = "root"
+            client.connect(hostname=host, port=port, username=username, password=password)
+        
+        # Création du client SFTP
+        sftp = client.open_sftp()
+        
+        # Création d'un fichier temporaire pour stocker le fichier chiffré
+        with tempfile.NamedTemporaryFile(delete=False) as temp:
+            temp_path = temp.name
+        
+        # Récupération du fichier chiffré
+        logging.info(f"Récupération du fichier distant {remote_file_path}")
+        sftp.get(remote_file_path, temp_path)
+        
+        # Fermeture des connexions
+        sftp.close()
+        client.close()
+        
+        # Déchiffrement du fichier
+        logging.info(f"Déchiffrement du fichier {temp_path}")
+        decryption_key = key if decryption_key is None else decryption_key
+        decryption_iv = iv if decryption_iv is None else decryption_iv
+        
+        with open(temp_path, 'rb') as f:
+            ciphertext = f.read()
+        
+        # Utilisation de la fonction decrypt_message avec les clés appropriées
+        plaintext = decrypt_message(ciphertext, decryption_key)
+        
+        # Sauvegarde du texte déchiffré
+        if plaintext:
+            with open(local_file_path, 'w') as f:
+                f.write(plaintext)
+            logging.info(f"Fichier déchiffré et sauvegardé dans {local_file_path}")
+            os.remove(temp_path)  # Suppression du fichier temporaire
+            return True
+        else:
+            logging.error("Échec du déchiffrement")
+            os.remove(temp_path)  # Suppression du fichier temporaire même en cas d'échec
+            return False
+    
+    except Exception as e:
+        logging.error(f"Erreur lors de la récupération et du déchiffrement: {str(e)}")
+        return False
 
 # Point d'entrée du programme lorsqu'il est exécuté directement
 if __name__ == "__main__":
@@ -121,8 +225,10 @@ if __name__ == "__main__":
             f.write("Ceci est un fichier de test")
         logging.info("Fichier test.txt créé pour les tests")
 
-    # Signer le fichier et obtenir la clé publique
+    # Étape 1: Signature du fichier en clair
+    logging.info("ÉTAPE 1: Signature du fichier en clair")
     sign_for_send("test.txt")
+    logging.info("Fichier signé avec succès")
 
     # Préparation des clés SSH
     ssh_dir = "/root/.ssh"
@@ -141,29 +247,93 @@ if __name__ == "__main__":
     with open("/etc/hosts", "a") as f:
         f.write("172.20.0.2 ssh_server\n")
     
-    # Exemple d'utilisation avec authentification par clé SSH protégée par mot de passe
-    result = transfer_file("test.txt", "/config/ceciestunfichier.txt", 
+    # Étape 2: Préparation du chiffrement et sauvegarde des clés
+    logging.info("ÉTAPE 2: Préparation du chiffrement")
+    enc_key_path = "encryption_key.bin"
+    enc_iv_path = "encryption_iv.bin"
+    with open(enc_key_path, "wb") as f:
+        f.write(key)
+    with open(enc_iv_path, "wb") as f:
+        f.write(iv)
+    logging.info(f"Clés de chiffrement sauvegardées dans {enc_key_path} et {enc_iv_path}")
+    
+    # Étape 3: Chiffrement et transfert des fichiers
+    logging.info("ÉTAPE 3: Chiffrement et transfert des fichiers")
+    
+    # Transférer le fichier chiffré
+    result_encrypted = transfer_file("test.txt", "/config/secure_file.enc", 
+                use_key=True, key_path="/root/.ssh/id_rsa", key_password="password", encrypt=True)
+    
+    # Transfert des fichiers nécessaires au déchiffrement et à la vérification
+    result_key = transfer_file(enc_key_path, "/config/encryption_key.bin", 
+                use_key=True, key_path="/root/.ssh/id_rsa", key_password="password")
+                
+    result_iv = transfer_file(enc_iv_path, "/config/encryption_iv.bin", 
                 use_key=True, key_path="/root/.ssh/id_rsa", key_password="password")
     
-    result = transfer_file("test.txt.sig", "/config/ceciestunfichier.txt.sig", 
+    result_sig = transfer_file("test.txt.sig", "/config/secure_file.sig", 
                 use_key=True, key_path="/root/.ssh/id_rsa", key_password="password")
     
-    # Transférer aussi la clé publique
-    result = transfer_file("test.txt.pub", "/config/ceciestunfichier.txt.pub", 
+    result_pub = transfer_file("test.txt.pub", "/config/secure_file.pub", 
                 use_key=True, key_path="/root/.ssh/id_rsa", key_password="password")
     
-    # Vérification du résultat
-    if result:
-        logging.info("Transfert de fichier réussi")
+    # Vérification du résultat des transferts
+    if result_encrypted and result_key and result_iv and result_sig and result_pub:
+        logging.info("Transfert de tous les fichiers réussi")
     else:
-        logging.error("Échec du transfert de fichier")
-
-    # Charger la clé publique depuis le fichier
+        logging.error("Échec du transfert d'un ou plusieurs fichiers")
+        exit(1)
+    
+    # Étape 4: Simulation de réception - Récupération et déchiffrement
+    logging.info("ÉTAPE 4: Simulation de réception - Récupération et déchiffrement")
+    
+    # Chargement des clés de déchiffrement (normalement, on les récupérerait du serveur)
+    with open(enc_key_path, "rb") as f:
+        decryption_key = f.read()
+    with open(enc_iv_path, "rb") as f:
+        decryption_iv = f.read()
+    
+    # Récupération et déchiffrement du fichier
+    decryption_result = retrieve_and_decrypt_file(
+        remote_file_path="/config/secure_file.enc",
+        local_file_path="received_file.txt",
+        decryption_key=decryption_key,
+        decryption_iv=decryption_iv,
+        use_key=True,
+        key_path="/root/.ssh/id_rsa",
+        key_password="password"
+    )
+    
+    if not decryption_result:
+        logging.error("Échec de la récupération et du déchiffrement")
+        exit(1)
+    
+    # Étape 5: Vérification de l'intégrité par signature
+    logging.info("ÉTAPE 5: Vérification de l'intégrité par signature")
+    
+    # Récupération de la signature et de la clé publique
+    # Normalement, on les récupérerait du serveur, mais ici on utilise celles existantes
     public_key = load_public_key("test.txt.pub")
     
-    # Vérification de la signature avec la clé publique chargée
     if public_key:
-        is_valid = verify_file_signature("test.txt", "test.txt.sig", public_key)
-        print(f"Vérification de test.txt avec sa signature: {is_valid}")
+        # Vérification de la signature avec la clé publique
+        is_valid = verify_file_signature("received_file.txt", "test.txt.sig", public_key)
+        if is_valid:
+            logging.info("✅ SUCCÈS: La signature du fichier déchiffré est valide. L'intégrité est confirmée.")
+            print("✅ SUCCÈS: La signature du fichier déchiffré est valide. L'intégrité est confirmée.")
+            
+            # Affichage du contenu du fichier vérifié
+            print("\n======== CONTENU DU FICHIER VÉRIFIÉ ========")
+            try:
+                with open("received_file.txt", "r") as f:
+                    file_content = f.read()
+                    print(file_content)
+            except Exception as e:
+                print(f"Erreur lors de la lecture du fichier: {str(e)}")
+            print("============================================\n")
+        else:
+            logging.error("❌ ÉCHEC: La signature du fichier déchiffré est invalide. Possible altération!")
+            print("❌ ÉCHEC: La signature du fichier déchiffré est invalide. Possible altération!")
     else:
+        logging.error("Impossible de vérifier la signature: clé publique non disponible")
         print("Impossible de vérifier la signature: clé publique non disponible")
