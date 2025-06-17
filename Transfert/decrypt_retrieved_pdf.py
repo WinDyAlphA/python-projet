@@ -22,6 +22,7 @@ from typing import Optional
 
 import chiffrement  # notre module local
 from chiffrement import decrypt_message_binary
+from signature import load_public_key, verify_file_signature  # ajout pour la vérification de signature
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -34,11 +35,13 @@ def read_bin(path: str) -> Optional[bytes]:
         return None
 
 def main():
-    parser = argparse.ArgumentParser(description="Déchiffre le PDF récupéré depuis Docker.")
+    parser = argparse.ArgumentParser(description="Déchiffre le PDF récupéré depuis Docker et vérifie son intégrité.")
     parser.add_argument("--enc", dest="enc_file", default="retrieved_files/rapport_total_secure.enc", help="Fichier PDF chiffré")
     parser.add_argument("--key", dest="key_file", default="retrieved_files/encryption_key.bin", help="Fichier contenant la clé AES")
     parser.add_argument("--iv", dest="iv_file", default="retrieved_files/encryption_iv.bin", help="Fichier contenant le vecteur IV")
     parser.add_argument("--out", dest="out_pdf", default="decrypted_files/rapport_total_decrypted.pdf", help="Chemin du PDF déchiffré")
+    parser.add_argument("--sig", dest="sig_file", default="retrieved_files/file_signature.sig", help="Fichier de signature pour vérifier l'intégrité")
+    parser.add_argument("--pub", dest="pub_key_file", default="retrieved_files/signature_public_key.pub", help="Clé publique de vérification de signature")
     args = parser.parse_args()
 
     # Lecture des fichiers
@@ -67,8 +70,24 @@ def main():
     with open(args.out_pdf, "wb") as f:
         f.write(plaintext)
     logging.info(f"✅ PDF déchiffré et sauvegardé: {args.out_pdf}")
-    print("Déchiffrement terminé avec succès ✅")
-    return 0
+
+    # Vérification d'intégrité via la signature
+    logging.info("Vérification de l'intégrité via la signature…")
+    public_key = load_public_key(args.pub_key_file)
+    if public_key is None:
+        logging.error("Clé publique non disponible. Impossible de vérifier la signature.")
+        print("❌ ÉCHEC: Clé publique non trouvée pour la vérification de signature.")
+        return 1
+
+    is_valid = verify_file_signature(args.out_pdf, args.sig_file, public_key)
+    if is_valid:
+        logging.info("✅ Signature valide. L'intégrité du fichier est confirmée.")
+        print("✅ Signature valide. L'intégrité du fichier est confirmée.")
+        return 0
+    else:
+        logging.error("❌ Signature invalide. Possible altération du fichier.")
+        print("❌ ÉCHEC: Signature invalide. Possible altération du fichier.")
+        return 1
 
 if __name__ == "__main__":
     exit(main()) 

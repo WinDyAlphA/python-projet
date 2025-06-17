@@ -2,8 +2,15 @@
 """
 retrieve_enc_from_docker.py
 
-Récupère le fichier PDF chiffré (rapport_total_secure.enc) depuis le conteneur
-Docker SSH et le sauvegarde localement avec le même nom.
+Récupère depuis le conteneur Docker les éléments nécessaires au déchiffrement et
+à la vérification d'intégrité :
+  • rapport_total_secure.enc (fichier PDF chiffré)
+  • encryption_key.bin       (clé AES)
+  • encryption_iv.bin        (vecteur IV)
+  • file_signature.sig       (signature du fichier)
+  • signature_public_key.pub (clé publique pour la vérification)
+
+Les fichiers sont copiés dans le dossier local « retrieved_files/ ».
 """
 
 import os
@@ -25,7 +32,21 @@ def check_docker_available() -> bool:
 def auto_detect_container(image_keywords=None):
     """Tente de détecter automatiquement le conteneur SSH basé sur l'image."""
     if image_keywords is None:
-        image_keywords = ["ssh_server", "openssh-server"]
+        image_keywords = ["ssh_server", "openssh-server", "linuxserver/openssh-server"]
+
+    # D'abord essayer une correspondance sur le nom du conteneur
+    try:
+        result = subprocess.run(
+            ["docker", "ps", "--filter", "name=ssh_server", "--format", "{{.ID}}"],
+            check=True, capture_output=True, text=True,
+        )
+        cid_name = result.stdout.strip()
+        if cid_name:
+            logging.info(f"Conteneur SSH détecté par nom: {cid_name}")
+            return cid_name
+    except subprocess.CalledProcessError:
+        pass
+
     for keyword in image_keywords:
         try:
             result = subprocess.run(
@@ -82,6 +103,8 @@ def main():
         "/config/rapport_total_secure.enc": "rapport_total_secure.enc",
         "/config/encryption_key.bin": "encryption_key.bin",
         "/config/encryption_iv.bin": "encryption_iv.bin",
+        "/config/file_signature.sig": "file_signature.sig",
+        "/config/signature_public_key.pub": "signature_public_key.pub",
     }
 
     output_dir = "retrieved_files"

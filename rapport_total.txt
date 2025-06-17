@@ -2,8 +2,8 @@
            RAPPORT DE DÉTECTION DE SCAN DE PORTS
 ================================================================================
 
-📅 Date de génération: 2025-06-17 13:25:50
-⏱️  Durée d'analyse: 3.86 secondes
+📅 Date de génération: 2025-06-17 13:33:41
+⏱️  Durée d'analyse: 4.15 secondes
 ⚙️  Configuration Scan: 100 paquets SYN, 1000 paquets UDP, 100 ports en 60s
 ⚙️  Configuration Force Brute: 100 requêtes en 10s (principal), 10 SSH, 15 FTP, 50 HTTP
 
@@ -64,319 +64,319 @@
 
 🔴 SCANS TCP (53 alertes):
 --------------------------------------------------
-  1. 2025-06-17T13:25:50
+  1. 2025-06-17T13:33:41
      Ports scannés: 8 ports
      Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 100
 
-  2. 2025-06-17T13:25:50
+  2. 2025-06-17T13:33:41
      Ports scannés: 8 ports
      Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 101
 
-  3. 2025-06-17T13:25:50
+  3. 2025-06-17T13:33:41
      Ports scannés: 8 ports
      Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 102
 
-  4. 2025-06-17T13:25:50
+  4. 2025-06-17T13:33:41
      Ports scannés: 8 ports
      Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 103
 
-  5. 2025-06-17T13:25:50
+  5. 2025-06-17T13:33:41
      Ports scannés: 8 ports
      Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 104
 
-  6. 2025-06-17T13:25:50
+  6. 2025-06-17T13:33:41
      Ports scannés: 8 ports
      Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 105
 
-  7. 2025-06-17T13:25:50
+  7. 2025-06-17T13:33:41
      Ports scannés: 8 ports
      Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 106
 
-  8. 2025-06-17T13:25:50
+  8. 2025-06-17T13:33:41
      Ports scannés: 8 ports
      Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 107
 
-  9. 2025-06-17T13:25:50
+  9. 2025-06-17T13:33:41
      Ports scannés: 8 ports
      Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 108
 
-  10. 2025-06-17T13:25:50
+  10. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 109
 
-  11. 2025-06-17T13:25:50
+  11. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 110
 
-  12. 2025-06-17T13:25:50
+  12. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 111
 
-  13. 2025-06-17T13:25:50
+  13. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 112
 
-  14. 2025-06-17T13:25:50
+  14. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 113
 
-  15. 2025-06-17T13:25:50
+  15. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 114
 
-  16. 2025-06-17T13:25:50
+  16. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 115
 
-  17. 2025-06-17T13:25:50
+  17. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 116
 
-  18. 2025-06-17T13:25:50
+  18. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 117
 
-  19. 2025-06-17T13:25:50
+  19. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 118
 
-  20. 2025-06-17T13:25:50
+  20. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 119
 
-  21. 2025-06-17T13:25:50
+  21. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 120
 
-  22. 2025-06-17T13:25:50
+  22. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 121
 
-  23. 2025-06-17T13:25:50
+  23. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 122
 
-  24. 2025-06-17T13:25:50
+  24. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 123
 
-  25. 2025-06-17T13:25:50
+  25. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 124
 
-  26. 2025-06-17T13:25:50
+  26. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 125
 
-  27. 2025-06-17T13:25:50
+  27. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.00s
      Paquets SYN: 126
 
-  28. 2025-06-17T13:25:50
+  28. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
-     Durée: 0.00s
+     Durée: 0.01s
      Paquets SYN: 127
 
-  29. 2025-06-17T13:25:50
+  29. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
-     Durée: 0.00s
+     Durée: 0.01s
      Paquets SYN: 128
 
-  30. 2025-06-17T13:25:50
+  30. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
-     Durée: 0.00s
+     Durée: 0.01s
      Paquets SYN: 129
 
-  31. 2025-06-17T13:25:50
+  31. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
-     Durée: 0.00s
+     Durée: 0.01s
      Paquets SYN: 130
 
-  32. 2025-06-17T13:25:50
+  32. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
-     Durée: 0.00s
+     Durée: 0.01s
      Paquets SYN: 131
 
-  33. 2025-06-17T13:25:50
+  33. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
-     Durée: 0.00s
+     Durée: 0.01s
      Paquets SYN: 132
 
-  34. 2025-06-17T13:25:50
+  34. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
-     Durée: 0.00s
+     Durée: 0.01s
      Paquets SYN: 133
 
-  35. 2025-06-17T13:25:50
+  35. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
-     Durée: 0.00s
+     Durée: 0.01s
      Paquets SYN: 134
 
-  36. 2025-06-17T13:25:50
+  36. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 135
 
-  37. 2025-06-17T13:25:50
+  37. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 136
 
-  38. 2025-06-17T13:25:50
+  38. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 137
 
-  39. 2025-06-17T13:25:50
+  39. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 138
 
-  40. 2025-06-17T13:25:50
+  40. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 139
 
-  41. 2025-06-17T13:25:50
+  41. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 140
 
-  42. 2025-06-17T13:25:50
+  42. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 141
 
-  43. 2025-06-17T13:25:50
+  43. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 142
 
-  44. 2025-06-17T13:25:50
+  44. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 143
 
-  45. 2025-06-17T13:25:50
+  45. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 144
 
-  46. 2025-06-17T13:25:50
+  46. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 145
 
-  47. 2025-06-17T13:25:50
+  47. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 146
 
-  48. 2025-06-17T13:25:50
+  48. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 147
 
-  49. 2025-06-17T13:25:50
+  49. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 148
 
-  50. 2025-06-17T13:25:50
+  50. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 149
 
-  51. 2025-06-17T13:25:50
+  51. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 150
 
-  52. 2025-06-17T13:25:50
+  52. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
      Paquets SYN: 151
 
-  53. 2025-06-17T13:25:50
+  53. 2025-06-17T13:33:41
      Ports scannés: 9 ports
      Échantillon: 21, 22, 23, 25, 80, 110, 143, 443, 3389
      Durée: 0.01s
