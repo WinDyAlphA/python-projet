@@ -67,8 +67,8 @@ def load_ports_from_file(file_path: str) -> List[int]:
         raise FileNotFoundError(f"Fichier de ports introuvable: {file_path}") from exc
 
 
-def main():
-    target_ip = "143.110.170.33"
+def scan_main(ip):
+    target_ip = ip
 
     # Path to the CSV file containing the 10k most popular TCP ports
     csv_file = os.path.join(os.path.dirname(__file__), "top-10000-most-popular-tcp-ports-nmap-sorted.csv")
@@ -83,4 +83,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    scan_main("127.0.0.1")

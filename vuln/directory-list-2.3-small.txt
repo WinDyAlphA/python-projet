@@ -1,0 +1,7 @@
+.%EXT%
+index
+index.%EXT%
+vulnerabilities
+sqli
+DVWA
+xss_s

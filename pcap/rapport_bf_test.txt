@@ -1,0 +1,106 @@
+================================================================================
+           RAPPORT DE DÉTECTION DE SCAN DE PORTS
+================================================================================
+
+📅 Date de génération: 2025-06-16 12:46:02
+⏱️  Durée d'analyse: 0.02 secondes
+⚙️  Configuration Scan: 100 paquets SYN, 100 paquets UDP, 100 ports en 60s
+⚙️  Configuration Force Brute: 10 SSH, 15 FTP, 50 HTTP en 300s
+
+🚨 ATTAQUES DÉTECTÉES!
+----------------------------------------
+📊 Nombre total d'alertes: 201
+🌐 IPs sources uniques: 1
+
+🔴 SCANS DE PORTS:
+   - Scans TCP: 53
+   - Scans UDP: 0
+   - Total: 53
+
+🟠 ATTAQUES PAR FORCE BRUTE:
+   - SSH: 129
+   - FTP: 0
+   - HTTP/HTTPS: 0
+   - Multi-cibles: 19
+   - Total: 148
+
+================================================================================
+🎯 ATTAQUANT: 203.0.113.100
+================================================================================
+
+🔴 SCANS TCP (53 alertes):
+--------------------------------------------------
+  1. 2025-06-16T12:46:02
+     Ports scannés: 8 ports
+     Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
+     Durée: 0.00s
+     Paquets SYN: 100
+
+  2. 2025-06-16T12:46:02
+     Ports scannés: 8 ports
+     Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
+     Durée: 0.00s
+     Paquets SYN: 101
+
+  3. 2025-06-16T12:46:02
+     Ports scannés: 8 ports
+     Échantillon: 21, 22, 23, 80, 110, 143, 443, 3389
+     Durée: 0.00s
+     Paquets SYN: 102
+
+     ... et 50 autres alertes TCP
+
+
+🟠 ATTAQUES FORCE BRUTE (148 alertes):
+--------------------------------------------------
+  1. 2025-06-16T12:46:02 - Multi-Port
+     Ports ciblés: 21, 22, 23, 80, 143 ... (+2 autres)
+     IPs ciblées: 10.0.0.1, 10.0.0.2, 10.0.0.4
+     Tentatives SSH: 6 | FTP: 3 | HTTP: 5 | Total: 20
+     Échecs: 0 | Succès: 2
+     Durée: 1551.56s
+
+  2. 2025-06-16T12:46:02 - Multi-Port
+     Ports ciblés: 21, 22, 23, 80, 143 ... (+2 autres)
+     IPs ciblées: 10.0.0.1, 10.0.0.2, 10.0.0.4
+     Tentatives SSH: 6 | FTP: 4 | HTTP: 5 | Total: 21
+     Échecs: 0 | Succès: 2
+     Durée: 1551.56s
+
+  3. 2025-06-16T12:46:02 - Multi-Port
+     Ports ciblés: 21, 22, 23, 80, 143 ... (+2 autres)
+     IPs ciblées: 10.0.0.1, 10.0.0.2, 10.0.0.4
+     Tentatives SSH: 6 | FTP: 4 | HTTP: 6 | Total: 22
+     Échecs: 0 | Succès: 2
+     Durée: 1551.56s
+
+     ... et 145 autres alertes de force brute
+
+================================================================================
+💡 RECOMMANDATIONS DE SÉCURITÉ
+================================================================================
+🔒 Actions immédiates:
+- Bloquer les adresses IP malveillantes dans le pare-feu
+- Surveiller les logs système pour d'autres activités suspectes
+- Vérifier l'intégrité des comptes utilisateurs
+
+🔴 Pour les scans de ports:
+- Activer la protection contre les scans de ports
+- Configurer des règles de limitation de débit (rate limiting)
+- Masquer les services non nécessaires
+
+🟠 Pour les attaques par force brute:
+- Changer les mots de passe des comptes exposés
+- Activer l'authentification multi-facteurs (2FA)
+- Mettre en place un système de bannissement automatique
+- Utiliser des ports non-standards pour les services critiques
+
+🛡️  Mesures préventives:
+- Déployer un système IDS/IPS
+- Mettre à jour les règles de sécurité réseau
+- Programmer des analyses de sécurité régulières
+- Former le personnel sur les bonnes pratiques de sécurité
+
+================================================================================
+Fin du rapport
+================================================================================
