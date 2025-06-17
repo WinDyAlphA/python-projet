@@ -92,3 +92,18 @@ python3 Transfert/retrieve_enc_from_docker.py
 
 python3 Transfert/decrypt_retrieved_pdf.py
 ```
+
+ALL. all
+```bash
+docker-compose up -d --force-recreate
+
+./setup_sftp_env.sh all
+```
+
+
+only decrypt. only decrypt
+```bash
+python3 Transfert/retrieve_enc_from_docker.py
+
+python3 Transfert/decrypt_retrieved_pdf.py
+```
