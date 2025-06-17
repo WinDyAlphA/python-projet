@@ -5,11 +5,11 @@ import getpass
 import shutil
 import tempfile
 from signature import sign_for_send, verify_file_signature, load_public_key
-from chiffrement import encrypt_from_file, decrypt_message, decrypt_from_file, key, iv
+from chiffrement import encrypt_from_file, decrypt_message, decrypt_message_binary, decrypt_from_file, key, iv
 
 
 # Configuration du système de journalisation
-#logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def transfer_file(file_path, remote_path, host="172.20.0.2", port=2222, username="noahheraud", 
                  use_key=False, key_path="/root/.ssh/id_rsa", password=None, key_password=None, encrypt=False):    
@@ -198,20 +198,31 @@ def retrieve_and_decrypt_file(remote_file_path, local_file_path, decryption_key=
         with open(temp_path, 'rb') as f:
             ciphertext = f.read()
         
-        # Utilisation de la fonction decrypt_message avec les clés appropriées
-        plaintext = decrypt_message(ciphertext, decryption_key)
-        
-        # Sauvegarde du texte déchiffré
-        if plaintext:
-            with open(local_file_path, 'w') as f:
-                f.write(plaintext)
-            logging.info(f"Fichier déchiffré et sauvegardé dans {local_file_path}")
-            os.remove(temp_path)  # Suppression du fichier temporaire
-            return True
+        # Utilisation de la fonction decrypt appropriée
+        if local_file_path.endswith('.pdf'):
+            plaintext_bin = decrypt_message_binary(ciphertext, decryption_key)
+            if plaintext_bin is not None:
+                with open(local_file_path, 'wb') as f:
+                    f.write(plaintext_bin)
+                logging.info(f"Fichier PDF déchiffré et sauvegardé dans {local_file_path}")
+                os.remove(temp_path)
+                return True
+            else:
+                logging.error("Échec du déchiffrement du PDF")
+                os.remove(temp_path)
+                return False
         else:
-            logging.error("Échec du déchiffrement")
-            os.remove(temp_path)  # Suppression du fichier temporaire même en cas d'échec
-            return False
+            plaintext = decrypt_message(ciphertext, decryption_key)
+            if plaintext:
+                with open(local_file_path, 'w') as f:
+                    f.write(plaintext)
+                logging.info(f"Fichier déchiffré et sauvegardé dans {local_file_path}")
+                os.remove(temp_path)
+                return True
+            else:
+                logging.error("Échec du déchiffrement")
+                os.remove(temp_path)
+                return False
     
     except Exception as e:
         logging.error(f"Erreur lors de la récupération et du déchiffrement: {str(e)}")
@@ -219,15 +230,15 @@ def retrieve_and_decrypt_file(remote_file_path, local_file_path, decryption_key=
 
 # Point d'entrée du programme lorsqu'il est exécuté directement
 if __name__ == "__main__":
-    # Création d'un fichier de test si nécessaire
-    if not os.path.exists("test.txt"):
-        with open("test.txt", "w") as f:
-            f.write("Ceci est un fichier de test")
-        logging.info("Fichier test.txt créé pour les tests")
+    # copie du fichier rapport_total.pdf dans le dossier Transfert
+    # Vérification de l'existence du fichier rapport_total.pdf
+    if not os.path.exists("rapport_total.pdf"):
+        logging.error("Le fichier rapport_total.pdf n'existe pas. Veuillez le créer avant d'exécuter le script.")
+        exit(1)
 
     # Étape 1: Signature du fichier en clair
-    logging.info("ÉTAPE 1: Signature du fichier en clair")
-    sign_for_send("test.txt")
+    logging.info("ÉTAPE 1: Signature du fichier rapport_total.pdf")
+    sign_for_send("rapport_total.pdf")
     logging.info("Fichier signé avec succès")
 
     # Préparation des clés SSH
@@ -261,7 +272,7 @@ if __name__ == "__main__":
     logging.info("ÉTAPE 3: Chiffrement et transfert des fichiers")
     
     # Transférer le fichier chiffré
-    result_encrypted = transfer_file("test.txt", "/config/secure_file.enc", 
+    result_encrypted = transfer_file("rapport_total.pdf", "/config/rapport_total_secure.enc", 
                 use_key=True, key_path="/root/.ssh/id_rsa", key_password="password", encrypt=True)
     
     # Transfert des fichiers nécessaires au déchiffrement et à la vérification
@@ -271,10 +282,10 @@ if __name__ == "__main__":
     result_iv = transfer_file(enc_iv_path, "/config/encryption_iv.bin", 
                 use_key=True, key_path="/root/.ssh/id_rsa", key_password="password")
     
-    result_sig = transfer_file("test.txt.sig", "/config/secure_file.sig", 
+    result_sig = transfer_file("file_signature.sig", "/config/file_signature.sig", 
                 use_key=True, key_path="/root/.ssh/id_rsa", key_password="password")
     
-    result_pub = transfer_file("test.txt.pub", "/config/secure_file.pub", 
+    result_pub = transfer_file("signature_public_key.pub", "/config/signature_public_key.pub", 
                 use_key=True, key_path="/root/.ssh/id_rsa", key_password="password")
     
     # Vérification du résultat des transferts
@@ -295,8 +306,8 @@ if __name__ == "__main__":
     
     # Récupération et déchiffrement du fichier
     decryption_result = retrieve_and_decrypt_file(
-        remote_file_path="/config/secure_file.enc",
-        local_file_path="received_file.txt",
+        remote_file_path="/config/rapport_total_secure.enc",
+        local_file_path="received_rapport_total.pdf",
         decryption_key=decryption_key,
         decryption_iv=decryption_iv,
         use_key=True,
@@ -313,24 +324,25 @@ if __name__ == "__main__":
     
     # Récupération de la signature et de la clé publique
     # Normalement, on les récupérerait du serveur, mais ici on utilise celles existantes
-    public_key = load_public_key("test.txt.pub")
+    public_key = load_public_key("signature_public_key.pub")
     
     if public_key:
         # Vérification de la signature avec la clé publique
-        is_valid = verify_file_signature("received_file.txt", "test.txt.sig", public_key)
+        is_valid = verify_file_signature("received_rapport_total.pdf", "file_signature.sig", public_key)
         if is_valid:
-            logging.info("✅ SUCCÈS: La signature du fichier déchiffré est valide. L'intégrité est confirmée.")
-            print("✅ SUCCÈS: La signature du fichier déchiffré est valide. L'intégrité est confirmée.")
+            logging.info("✅ SUCCÈS: La signature du fichier PDF déchiffré est valide. L'intégrité est confirmée.")
+            print("✅ SUCCÈS: La signature du fichier PDF déchiffré est valide. L'intégrité est confirmée.")
             
-            # Affichage du contenu du fichier vérifié
-            print("\n======== CONTENU DU FICHIER VÉRIFIÉ ========")
+            # Information sur le fichier vérifié
+            print("\n======== FICHIER PDF VÉRIFIÉ ========")
             try:
-                with open("received_file.txt", "r") as f:
-                    file_content = f.read()
-                    print(file_content)
+                file_size = os.path.getsize("received_rapport_total.pdf")
+                print(f"Fichier PDF déchiffré: received_rapport_total.pdf")
+                print(f"Taille du fichier: {file_size} octets")
+                print("Le fichier PDF a été déchiffré et vérifié avec succès.")
             except Exception as e:
-                print(f"Erreur lors de la lecture du fichier: {str(e)}")
-            print("============================================\n")
+                print(f"Erreur lors de la vérification du fichier: {str(e)}")
+            print("=====================================\n")
         else:
             logging.error("❌ ÉCHEC: La signature du fichier déchiffré est invalide. Possible altération!")
             print("❌ ÉCHEC: La signature du fichier déchiffré est invalide. Possible altération!")

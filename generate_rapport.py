@@ -586,7 +586,7 @@ class SecurityReportGenerator:
                 pdf.multi_cell(0, line_height, txt=clean_line)
 
         try:
-            pdf.output(pdf_path)
+            pdf.output("Transfert/rapport_total.pdf")
             print(f"[RAPPORT] PDF généré: {pdf_path}")
         except Exception as e:
             print(f"[ERREUR] Erreur lors de la génération du PDF: {e}")

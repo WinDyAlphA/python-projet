@@ -6,7 +6,7 @@ import os
 # recupere le pwd
 pwd = os.getcwd()
 # recuperer le fichier test.txt
-file_path = os.path.join(pwd, "Transfert", "test.txt")
+file_path = os.path.join(pwd, "Transfert", "rapport_total.txt")
 
 
 key = os.urandom(32)
@@ -101,9 +101,15 @@ def decrypt_to_file(ciphertext, filename):
 
 def encrypt_from_file(filename):
   try:
-    with open(filename, 'r') as f:
-      message = f.read()
-    return encrypt_message(message)
+    # Pour les fichiers PDF, utiliser le chiffrement binaire
+    if filename.endswith('.pdf'):
+      with open(filename, 'rb') as f:
+        message_bytes = f.read()
+      return encrypt_message_binary(message_bytes)
+    else:
+      with open(filename, 'r') as f:
+        message = f.read()
+      return encrypt_message(message)
   except FileNotFoundError as e:
     print(f"Erreur lors de la lecture du fichier {filename}: {e}")
     return None
@@ -111,14 +117,55 @@ def encrypt_from_file(filename):
     print(f"Erreur lors du chiffrement: {e}")
     return None
 
+def decrypt_message_binary(ciphertext, decryption_key=key):
+    """
+    Déchiffre un message sans conversion UTF-8 - pour les fichiers binaires comme les PDFs
+    """
+    try:
+        if not validate_key(decryption_key):
+            raise InvalidKey("La clé est invalide")
+        cipher = Cipher(algorithms.AES(decryption_key), modes.CBC(iv))
+        decryptor = cipher.decryptor()
+        unpadder = padding.PKCS7(128).unpadder()
+        decrypted_data = decryptor.update(ciphertext) + decryptor.finalize()
+        plaintext = unpadder.update(decrypted_data) + unpadder.finalize()
+        return plaintext  # Retourne les données binaires directement
+    except InvalidKey:
+        # On laisse remonter l'exception InvalidKey
+        raise
+    except Exception as e:
+        print(f"Erreur lors du déchiffrement binaire: {str(e)}")
+        return None
+
+def encrypt_message_binary(message_bytes, encryption_key=key):
+    """
+    Chiffre des données binaires directement
+    """
+    try:
+        if not validate_key(encryption_key):
+            raise InvalidKey("La clé est invalide")
+        cipher = Cipher(algorithms.AES(encryption_key), modes.CBC(iv))
+        encryptor = cipher.encryptor()
+        padder = padding.PKCS7(128).padder()
+        padded_data = padder.update(message_bytes) + padder.finalize()
+        ciphertext = encryptor.update(padded_data) + encryptor.finalize()
+        return ciphertext
+    except InvalidKey:
+        # On laisse remonter l'exception InvalidKey
+        raise
+    except Exception as e:
+        print(f"Erreur lors du chiffrement binaire: {str(e)}")
+        return None
+
 # main 
 
 if __name__ == "__main__":
     # Chiffrer le fichier test.txt
     cipher = encrypt_from_file(file_path)
     
-    # Sauvegarder le chiffré dans un fichier
-    with open(file_path+".enc", "wb") as f:
+    # Sauvegarder le chiffré dans un fichier avec un nom logique
+    encrypted_filename = "encrypted_file.enc"
+    with open(encrypted_filename, "wb") as f:
         if cipher is not None:
             f.write(cipher)
-    print(f"Le fichier test.txt a été chiffré et sauvegardé dans encrypted_test.txt")
+    print(f"Le fichier {file_path} a été chiffré et sauvegardé dans {encrypted_filename}")

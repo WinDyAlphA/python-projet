@@ -2,6 +2,7 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
+import os
 
 
 
@@ -88,28 +89,43 @@ def generate_keys():
 def sign_for_send(file_path):
   private_key, public_key, private_pem, public_pem = generate_keys()
 
-  #print("Clé privée: \n", private_pem.decode())
-  #print("Clé publique: \n", public_pem.decode())
-  
-  # Sauvegarder la clé publique pour vérification ultérieure
-  with open(file_path + ".pub", "wb") as pub_file:
+  print("Clé privée: \n", private_pem.decode())
+  print("Clé publique: \n", public_pem.decode())
+
+  # Sauvegarder la clé publique avec un nom logique
+  pub_key_path = "signature_public_key.pub"
+  with open(pub_key_path, "wb") as pub_file:
     pub_file.write(public_pem)
-  print(f"Clé publique sauvegardée dans {file_path}.pub")
+  print(f"Clé publique sauvegardée dans {pub_key_path}")
+
+  # Sauvegarder la clé privée avec un nom logique
+  priv_key_path = "signature_private_key.priv"
+  with open(priv_key_path, "wb") as priv_file:
+    priv_file.write(private_pem)
+  # Définir des permissions restrictives pour la clé privée (lecture seule pour le propriétaire)
+  os.chmod(priv_key_path, 0o600)
+  print(f"Clé privée sauvegardée dans {priv_key_path} (permissions: 600)")
 
   # Lire le contenu du fichier
   try:
     with open(file_path, "rb") as file:
       message = file.read()
-    print(f"Message lu depuis {file_path}: {message.decode() if len(message) < 100 else message.decode()[:100] + '...'}")
+    
+    # Affichage différent selon le type de fichier
+    if file_path.endswith('.pdf'):
+      print(f"Fichier PDF lu depuis {file_path}: {len(message)} octets")
+    else:
+      print(f"Message lu depuis {file_path}: {message.decode() if len(message) < 100 else message.decode()[:100] + '...'}")
     
     # Signer le message
     signature = sign_message(private_key, message)
     print("Signature générée")
     
-    # Sauvegarder la signature dans un fichier
-    with open(file_path+".sig", "wb") as sig_file:
+    # Sauvegarder la signature avec un nom logique
+    signature_path = "file_signature.sig"
+    with open(signature_path, "wb") as sig_file:
       sig_file.write(signature)
-    print(f"Signature sauvegardée dans {file_path}.sig")
+    print(f"Signature sauvegardée dans {signature_path}")
     
     return public_key
     
