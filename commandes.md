@@ -76,17 +76,7 @@ exit
 docker exec -it ssh_client bash -c "cd /app && python paraminko_transfert_docker.py"
 ```
 
-## 6. Vérification du transfert
-
-```bash
-# Vérifier que le fichier a bien été transféré sur le serveur
-docker exec -it ssh_server bash -c "ls -la /config/ceciestunfichier.txt"
-
-# Afficher le contenu du fichier transféré
-docker exec -it ssh_server bash -c "cat /config/ceciestunfichier.txt"
-```
-
-## 7. Nettoyage (optionnel)
+## 6. Nettoyage (optionnel)
 
 ```bash
 # Arrêter et supprimer les conteneurs
@@ -95,3 +85,10 @@ docker-compose down
 # Supprimer les données générées
 rm -rf ssh_keys/ ssh_server_data/
 ``` 
+
+7. Dechiffrement
+```bash
+python3 Transfert/retrieve_enc_from_docker.py  
+
+python3 Transfert/decrypt_retrieved_pdf.py
+```
